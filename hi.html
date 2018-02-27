@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Chat</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <script src="https://cdn.firebase.com/libs/firebaseui/2.6.2/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.6.2/firebaseui.css" />
+  <style>
+      * {
+          font-family: 'Montserrat', sans-serif;
+      }
+  </style>
+  <script type="text/javascript">
+      // Initialize Firebase
+        var config = {
+        apiKey: "AIzaSyCaQ04PdL1xdAKuy9Cm7Spmlz0tEIqEKyM",
+        authDomain: "chat-application-stephyx.firebaseapp.com",
+        databaseURL: "https://chat-application-stephyx.firebaseio.com",
+        projectId: "chat-application-stephyx",
+        storageBucket: "chat-application-stephyx.appspot.com",
+        messagingSenderId: "753065265439"
+        };
+        firebase.initializeApp(config);
+  </script>
+  <body>
+ 
+  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+    <script>
+        var myFirebase = new Firebase('https://chat-application-stephyx.firebaseio.com/');
+        var textInput = document.querySelector('#text');
+        var postButton = document.querySelector('#post');
+        
+        var username = null;
+        var loginButton = document.querySelector('#login');
+        postButton.style.display = "none";
+        textInput.style.display = "none";
+    
+        postButton.addEventListener("click", function() {
+          var msgUser = username;
+          var msgText = textInput.value;
+          myFirebase.push({text:msgText});
+          textInput.value = "";
+        });
+        
+        var myFirebase = new Firebase('https://chat-application-stephyx.firebaseio.com/');
+        
+        var showData = function() {
+          myFirebase.on('child_added', function(snapshot) {
+            var msg = snapshot.val();
+            
+            var textElement = document.createElement("p");
+            textElement.textContent = msg.text;
+            var msgElement = document.createElement("div");
+            msgElement.appendChild(textElement);
+    
+            document.getElementById("results").appendChild(msgElement);
+          });
+        }
+        
+        showData();
+        
+        loginButton.addEventListener("click", function() {
+          myFirebase.authWithOAuthPopup("google", function(error, authData) {
+            if (error) {
+              console.log(error);
+            } else {
+              console.log(authData);
+            }
+          }, {remember: "sessionOnly"});
+        });
+    </script>
+    <input id="text" type="text" placeholder="Message"><br/>
+  <br>
+  <button id="post">Post Message</button><br/>
+  <div id="results"></div>
+  </body>
+</html>
