@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Chat</title>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <script src='https://cdn.firebase.com/js/client/2.4.0/firebase.js'></script>
+</head>
+<body>
+  <input id="text" type="text" placeholder="Message"><br/>
+  <button id="post">Post Message</button><br/>
+  <div id="results"></div>
+  
+  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyCaQ04PdL1xdAKuy9Cm7Spmlz0tEIqEKyM",
+        authDomain: "chat-application-stephyx.firebaseapp.com",
+        databaseURL: "https://chat-application-stephyx.firebaseio.com",
+        projectId: "chat-application-stephyx",
+        storageBucket: "chat-application-stephyx.appspot.com",
+        messagingSenderId: "753065265439"
+      };
+      firebase.initializeApp(config);
+    </script>
+    
+  <script>
+    var myFirebase = new Firebase('https://chat-application-stephyx.firebaseio.com/');
+    var textInput = document.querySelector('#text');
+    var postButton = document.querySelector('#post');
+
+    postButton.addEventListener("click", function() {
+      var msgText = textInput.value;
+      myFirebase.set(msgText);
+      textInput.value = "";
+    });
+</script>
+  
+  <script>
+    var myFirebase = new Firebase('https://chat-application-stephyx.firebaseio.com/');
+  </script>
+</body>
+</html>
